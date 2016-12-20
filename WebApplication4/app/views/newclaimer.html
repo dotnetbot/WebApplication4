@@ -1,0 +1,115 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="NavbarController">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#/home">oergjw</a>-->
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#stepsearchbysnils">Добавить заявление</a></li>
+                <li><a href="#persons">Заявители</a></li>
+                <li><a href="#claims">Регистрация заявлений</a></li>
+                <li><a href="#inwork">В работе</a></li>
+                <li><a href="#rejected">Отказы</a></li>
+                <li><a href="#">Список по программе</a></li>
+            </ul>
+            <p data-ng-hide="!authentication.isAuth" class="navbar-text navbar-right">{{authentication.userName}}</p>
+            <button data-ng-hide="!authentication.isAuth" data-ng-click="logOut()" type="button" class="btn btn-default navbar-btn navbar-right">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<section id="body" class="container-fluid" style="min-height: 858px;">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="panel-body">
+                <form name="claimForm" role="form" class="form-horizontal" novalidate>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputLastName.$touched) && claimForm.inputLastName.$invalid }">
+                        <label for="inputLastName" class="col-sm-5 control-label">Фамилия</label>
+                        <div class="col-sm-7">
+                            <input name="inputLastName" type="text" class="form-control" placeholder="Фамилия" data-ng-model="vm.claimerData.lastName" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputLastName.$touched)  && claimForm.inputLastName.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputFirstName.$touched) && claimForm.inputFirstName.$invalid }">
+                        <label for="inputFirstName" class="col-sm-5 control-label">Имя</label>
+                        <div class="col-sm-7">
+                            <input name="inputFirstName" type="text" class="form-control" placeholder="Имя" data-ng-model="vm.claimerData.firstName" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputFirstName.$touched) && claimForm.inputFirstName.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputMiddleName.$touched) && claimForm.inputMiddleName.$invalid }">
+                        <label for="inputMiddleName" class="col-sm-5 control-label">Отчество</label>
+                        <div class="col-sm-7">
+                            <input name="inputMiddleName" type="text" class="form-control" placeholder="Отчество" data-ng-model="vm.claimerData.middleName" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputMiddleName.$touched) && claimForm.inputMiddleName.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputDateOfBirth.$touched) && claimForm.inputDateOfBirth.$invalid }">
+                        <label for="inputDateOfBirth" class="col-sm-5 control-label">Дата рождения</label>
+                        <div class="col-sm-7">
+                            <input name="inputDateOfBirth" type="text" class="form-control" placeholder="Дата рождения"
+                                   ng-click="vm.open($event)"
+                                   uib-datepicker-popup="{{vm.format}}"
+                                   data-ng-model="vm.claimerData.dateOfBirth"
+                                   is-open="vm.opened"
+                                   datepicker-options="vm.dateOptions"
+                                   date-disabled="disabled(date, mode)"
+                                   ng-required="true" show-button-bar="false" datepicker-local-date />
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputDateOfBirth.$touched) && claimForm.inputDateOfBirth.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputSnils.$touched) && claimForm.inputSnils.$invalid }">
+                        <label for="inputSnils" class="col-sm-5 control-label">СНИЛС</label>
+                        <div class="col-sm-7">
+                            <input name="inputSnils" type="text" class="form-control" placeholder="СНИЛС" data-ng-model="vm.claimerData.snils" ui-mask="999-999-999 99" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputSnils.$touched) && claimForm.inputSnils.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputDocSeries.$touched) && claimForm.inputDocSeries.$invalid }">
+                        <label for="inputDocSeries" class="col-sm-5 control-label">Серия документа</label>
+                        <div class="col-sm-7">
+                            <input name="inputDocSeries" type="text" class="form-control" placeholder="Серия документа" data-ng-model="vm.claimerData.passportSeries" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputDocSeries.$touched) && claimForm.inputDocSeries.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputDocNumber.$touched) && claimForm.inputDocNumber.$invalid }">
+                        <label for="inputDocNumber" class="col-sm-5 control-label">Номер документа</label>
+                        <div class="col-sm-7">
+                            <input name="inputDocNumber" type="text" class="form-control" placeholder="Номер документа" data-ng-model="vm.claimerData.passportNumber" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputDocNumber.$touched) && claimForm.inputDocNumber.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputDocDate.$touched) && claimForm.inputDocDate.$invalid }">
+                        <label for="inputDocDate" class="col-sm-5 control-label">Дата выдачи документа</label>
+                        <div class="col-sm-7">
+                            <input name="inputDocDate"
+                                   type="text" class="form-control"
+                                   placeholder="Дата выдачи документа"
+                                   ng-click="vm.open1($event)"
+                                   uib-datepicker-popup="{{vm.format}}"
+                                   data-ng-model="vm.claimerData.passportDate"
+                                   is-open="vm.opened1"
+                                   datepicker-options="vm.dateOptions"
+                                   date-disabled="disabled(date, mode)"
+                                   ng-required="true" show-button-bar="false" datepicker-local-date />
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputDocDate.$touched) && claimForm.inputDocDate.$invalid"></span>
+                        </div>
+                    </div>
+                    
+                    <!--<button class="btn btn-lg btn-primary btn-block" type="submit" data-ng-click="signUp()" style="margin-bottom: 10px;">Готово</button>-->
+                    <div class="form-group">
+                        <div class="col-sm-3 col-sm-offset-5">
+                            <input class="btn btn-primary" type="submit" data-ng-click="vm.create()" style="margin-bottom: 10px;" value="Готово" ng-disabled="claimForm.$invalid" />                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

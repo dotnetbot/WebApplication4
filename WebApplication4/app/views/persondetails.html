@@ -1,0 +1,109 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="NavbarController">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#/home">oergjw</a>-->
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#stepsearchbysnils">Добавить заявление</a></li>
+                <li><a href="#persons">Заявители</a></li>
+                <li><a href="#claims">Регистрация заявлений</a></li>
+                <li><a href="#inwork">В работе</a></li>
+                <li><a href="#rejected">Отказы</a></li>
+                <li><a href="#">Список по программе</a></li>                
+            </ul>
+            <p data-ng-hide="!authentication.isAuth" class="navbar-text navbar-right">{{authentication.userName}}</p>
+            <button data-ng-hide="!authentication.isAuth" data-ng-click="logOut()" type="button" class="btn btn-default navbar-btn navbar-right">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<section id="body" class="container-fluid" style="min-height: 858px;">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="panel">
+                <div class="panel-heading">
+                    Заявитель
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <div>
+                            <h3>Общие сведения</h3>
+                            <dl class="dl-horizontal">
+                                <dt>СНИЛС</dt>
+                                <dd>{{ vm.persondetails.snils }}</dd>
+                                <dt>Фамилия</dt>
+                                <dd>{{ vm.persondetails.lastName || '&nbsp;' }}</dd>
+                                <dt>Имя</dt>
+                                <dd>{{ vm.persondetails.firstName || '&nbsp;' }}</dd>
+                                <dt>Отчество</dt>
+                                <dd>{{ vm.persondetails.middleName }}</dd>
+                                <dt>Дата рождения</dt>
+                                <dd>{{ vm.persondetails.dateOfBirth | date: 'dd MMMM yyyy' }}</dd>
+                                <dt>Серия документа</dt>
+                                <dd>{{ vm.persondetails.passportSeries }}</dd>
+                                <dt>Номер документа</dt>
+                                <dd>{{ vm.persondetails.passportNumber }}</dd>
+                                <dt>Дата выдачи документа</dt>
+                                <dd>{{ vm.persondetails.passportDate | date: 'dd MMMM yyyy' }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <h3>Заявления</h3>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <p ng-click="vm.openBrief(claim)" ng-repeat="claim in vm.persondetails.claims" style="cursor: pointer" class="list-group-item">{{ claim.dateTime }}</p>
+                                </li>
+                            </ul>
+                            <button ng-click="vm.addClaim(vm.persondetails.id)" class="btn btn-default">Добавить заявление</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/ng-template" id="BriefClaim.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Brief claim</h3>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Адрес регистрации</dt>
+            <dd>{{ vm.claimBrief.regAddress || '&nbsp;' }}</dd>
+            <dt>Почтовый адрес</dt>
+            <dd>{{ vm.claimBrief.postAddress || '&nbsp;' }}</dd>
+            <dt>Наименование организации</dt>
+            <dd>{{ vm.claimBrief.job }}</dd>
+            <dt>Сфера деятельности</dt>
+            <dd>{{ vm.claimBrief.jobSphere }}</dd>
+            <dt>Должность</dt>
+            <dd>{{ vm.claimBrief.position }}</dd>
+            <dt>Среднемесячный совокупный доход семьи</dt>
+            <dd>{{ vm.claimBrief.familyIncome }}</dd>
+            <dt>Персональный доход</dt>
+            <dd>{{ vm.claimBrief.personalIncome }}</dd>
+            <dt>Собственность гражданина, Кадастровый номер</dt>
+            <dd>{{ vm.claimBrief.ownership }}</dd>
+            <dt>Телефон гражданина</dt>
+            <dd>{{ vm.claimBrief.phone }}</dd>
+            <dt>Email</dt>
+            <dd>{{ vm.claimBrief.email }}</dd>
+        </dl>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" ng-click="vm.go()">Перейти</button>
+        <button class="btn btn-default" type="button" ng-click="vm.useAsBlank()">Создать новое на основе этого</button>
+        <button class="btn btn-primary" type="button" ng-click="vm.ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</script>

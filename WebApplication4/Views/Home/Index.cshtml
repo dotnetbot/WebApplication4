@@ -1,0 +1,132 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html data-ng-app="oergjw">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Обмен</title>
+    <link type="text/css" href="@Url.Content("~/Content/css/normalize.css")" rel="Stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/css/bootstrap.css")" rel="Stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/css/filetypes.css")" rel="Stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/css/toaster.css")" rel="Stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/css/loading-bar.css")" rel="Stylesheet" />
+    <link type="text/css" href="@Url.Content("~/Content/css/jquery.fancybox.css")" rel="Stylesheet" />
+    <style>
+        body {
+            padding-top: 51px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+
+        .pagination {
+            float: right;
+            margin: 0;
+        }
+
+        li.focused {
+            background-color: #ebf2f9;
+        }
+
+        .invisiblecontent {
+            display: none;
+        }
+
+        .green {
+            background-color: rgb(16, 150, 24);
+        }
+
+        .blue {
+            background-color: #3071a9;
+        }
+
+        .red {
+            background-color: rgb(204, 51, 51);
+        }
+
+        .orange {
+            background-color: rgb(238, 136, 0);
+        }
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <script type="text/javascript">
+        if (!window.console) {
+            console = {
+                log: function () {
+                },
+                debug: function () {
+                }
+            };
+        } else if (!window.console.debug) {
+            window.console.debug = function () { };
+        }
+    </script>
+</head>
+    <body>
+        <div ui-view></div>
+        
+        
+
+        @*<hr />
+    <footer class="container">
+        <p style="color: #eee">Created by HDR</p>
+    </footer>*@
+        <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")"></script>
+        <script src="@Url.Content("~/Scripts/underscore.js")"></script>
+        <script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+        <script src="@Url.Content("~/Scripts/angular-locale_ru-ru.js")"></script>
+        <script src="@Url.Content("~/Scripts/angular-ui-router.js")"></script>
+        <script src="@Url.Content("~/scripts/angular-local-storage.min.js")"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.js"></script>
+        <script src="@Url.Content("~/Scripts/angular-breadcrumb.js")"></script>
+        <script src="@Url.Content("~/Scripts/angular-file-upload-2.2.0.js")"></script>
+        <script src="@Url.Content("~/Scripts/angular-underscore.js")"></script>
+        <script src="@Url.Content("~/Scripts/jquery.fancybox.js")"></script>
+        <script src="@Url.Content("~/Scripts/ui-utils-mask.js")"></script>
+    
+        <script src="@Url.Content("~/Scripts/ui-bootstrap-tpls-1.3.2.js")"></script>
+        <script src="@Url.Content("~/Scripts/toaster.js")"></script>
+        <script src="@Url.Content("~/Scripts/loading-bar.js")"></script>
+
+        <script src="@Url.Content("~/app/oergjw.js")"></script>
+        <script src="@Url.Content("~/app/oergjw.config.js")"></script>
+        <script src="@Url.Content("~/app/oergjw.routes.js")"></script>
+
+        <script src="@Url.Content("~/app/authentication/authentication.module.js")"></script>
+        <script src="@Url.Content("~/app/authentication/services/authinterceptor.service.js")"></script>
+        <script src="@Url.Content("~/app/authentication/services/authentication.service.js")"></script>
+        <script src="@Url.Content("~/app/authentication/controllers/login.controller.js")"></script>
+
+        <script src="@Url.Content("~/app/layout/layout.module.js")"></script>
+        <script src="@Url.Content("~/app/layout/controllers/index.controller.js")"></script>
+        <script src="@Url.Content("~/app/layout/controllers/navbar.controller.js")"></script>
+
+        <script src="@Url.Content("~/app/persons/persons.module.js")"></script>
+        <script src="@Url.Content("~/app/persons/services/persons.service.js")"></script>
+        <script src="@Url.Content("~/app/persons/controllers/newclaimer.controller.js")"></script>
+        <script src="@Url.Content("~/app/persons/controllers/persons.controller.js")"></script>
+        <script src="@Url.Content("~/app/persons/controllers/persondetails.controller.js")"></script>
+        <script src="@Url.Content("~/app/persons/controllers/briefclaim.controller.js")"></script>        
+
+        <script src="@Url.Content("~/app/claims/claims.module.js")"></script>
+        <script src="@Url.Content("~/app/claims/services/searchsteps.service.js")"></script>
+        <script src="@Url.Content("~/app/claims/services/claims.service.js")"></script>
+        <script src="@Url.Content("~/app/claims/services/buildings.service.js")"></script>
+        <script src="@Url.Content("~/app/claims/services/rejectcauses.service.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/claims.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/rejectedclaims.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/inworkclaims.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/claimdetails.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/newscans.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/newclaim.controller.js")"></script>
+        <script src="@Url.Content("~/app/helpers/controllers/dpCtrl.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/addclaim.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/rejectclaim.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/stepsearchbysnils.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/stepsearchbypassport.controller.js")"></script>
+        <script src="@Url.Content("~/app/claims/controllers/stepsearchbyname.controller.js")"></script>
+    </body>
+</html>
+
+

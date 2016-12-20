@@ -1,0 +1,123 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="NavbarController">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#/home">oergjw</a>-->
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#stepsearchbysnils">Добавить заявление</a></li>
+                <li><a href="#persons">Заявители</a></li>
+                <li><a href="#claims">Регистрация заявлений</a></li>
+                <li><a href="#inwork">В работе</a></li>
+                <li><a href="#rejected">Отказы</a></li>
+                <li><a href="#">Список по программе</a></li>                
+            </ul>
+            <p data-ng-hide="!authentication.isAuth" class="navbar-text navbar-right">{{authentication.userName}}</p>
+            <button data-ng-hide="!authentication.isAuth" data-ng-click="logOut()" type="button" class="btn btn-default navbar-btn navbar-right">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<section id="body" class="container-fluid" style="min-height: 858px;">
+    <div class="row">
+        <div class="col-md-10">
+            <div class="panel">
+                <div class="panel-heading">
+                    Заявление
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <div>
+                            <h3>Общие сведения</h3>
+                            <dl class="dl-horizontal">
+                                <dt>Адрес регистрации</dt>
+                                <dd>{{ vm.claimdetails.regAddress || '&nbsp;' }}</dd>
+                                <dt>Почтовый адрес</dt>
+                                <dd>{{ vm.claimdetails.postAddress || '&nbsp;' }}</dd>
+                                <dt>Наименование организации</dt>
+                                <dd>{{ vm.claimdetails.job }}</dd>
+                                <dt>Сфера деятельности</dt>
+                                <dd>{{ vm.claimdetails.jobSphere }}</dd>
+                                <dt>Должность</dt>
+                                <dd>{{ vm.claimdetails.position }}</dd>
+                                <dt>Среднемесячный совокупный доход семьи</dt>
+                                <dd>{{ vm.claimdetails.familyIncome }}</dd>
+                                <dt>Персональный доход</dt>
+                                <dd>{{ vm.claimdetails.personalIncome }}</dd>                            
+                                <dt>Собственность гражданина, Кадастровый номер</dt>
+                                <dd>{{ vm.claimdetails.ownership }}</dd>
+                                <dt>Телефон гражданина</dt>
+                                <dd>{{ vm.claimdetails.phone }}</dd>
+                                <dt>Email</dt>
+                                <dd>{{ vm.claimdetails.email }}</dd>                                
+                            </dl>
+                        </div>
+                        <div ng-cloak>
+                            <div>
+                                <button ng-hide="vm.claimdetails.isRejected" type="button" class="btn btn-danger" ng-click="vm.openRejectCause()">Отказ</button>
+                                <button ng-hide="vm.claimdetails.inwork" type="button" class="btn btn-primary" ng-click="vm.goInwork()">В госстрой</button>
+                            </div>
+                            <div ng-show="vm.claimdetails.isRejected">
+                                Отказано по причине:
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <h3>Документы</h3>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-12" ng-repeat="scan in vm.claimdetails.scans" style="padding-bottom: 15px">
+                                        <a ng-show="scan.ext.toLowerCase() != 'pdf' && scan.ext.toLowerCase() != 'doc' && scan.ext.toLowerCase() != 'docx' && scan.ext.toLowerCase() != 'tif'"
+                                           ng-click="vm.openBox(scan.originalName, scan.id, $index)"
+                                           class="fancybox-thumb" href="" rel="gallery" style="cursor: default">
+                                            <img ng-src="{{ scan.ext != 'pdf' && scan.ext != 'doc' && scan.ext != 'docx' && scan.ext != 'tif' ? 'images/preview/' + scan.id : '' }}" alt="" style="width: 25px; border: solid 1px black" />
+                                            {{ scan.originalName }}
+                                        </a>
+                                        <a ng-show="scan.ext.toLowerCase() == 'pdf' || scan.ext.toLowerCase() == 'doc' || scan.ext.toLowerCase() == 'docx' || scan.ext.toLowerCase() == 'tif'"
+                                           ng-click="vm.openBox(scan.originalName, scan.id, $index)"
+                                           class="filetype"
+                                           ng-class="{ pdf: scan.ext.toLowerCase() == 'pdf', doc: scan.ext.toLowerCase() == 'doc', docx: scan.ext.toLowerCase() == 'docx', tif: scan.ext.toLowerCase() == 'tif' }"
+                                            style="cursor: default">
+                                            {{ scan.originalName }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" ng-click="vm.addscans()" class="btn btn-default">Добавить сканы</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/ng-template" id="RejectCause.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Отказ</h3>
+    </div>
+    <div class="modal-body">
+        <form name="rejectForm" role="form" class="form-horizontal" novalidate>
+            <div class="form-group has-feedback" ng-class="{ 'has-error': (rejectForm.$submitted || rejectForm.selectCause.$touched) && rejectForm.selectCause.$invalid }">
+                <label for="selectCause" class="col-sm-5 control-label">Основание отказа</label>
+                <div class="col-sm-7">
+                    <select class="form-control" name="selectCause" ng-model="vm.reject.causeid">
+                        <option ng-repeat="cause in vm.rejectCauses" value="{{ cause.id }}">{{ cause.text }}</option>
+                    </select>
+                    <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(rejectForm.$submitted || rejectForm.selectCause.$touched) && rejectForm.selectCause.$invalid"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="vm.ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+    </div>
+</script>

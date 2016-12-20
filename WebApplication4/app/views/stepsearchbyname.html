@@ -1,0 +1,90 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="NavbarController as vm">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#/home">oergjw</a>-->
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#stepsearchbysnils">Добавить заявление</a></li>
+                <li><a href="#persons">Заявители</a></li>
+                <li><a href="#claims">Регистрация заявлений</a></li>
+                <li><a href="#inwork">В работе</a></li>
+                <li><a href="#rejected">Отказы</a></li>
+                <li><a href="#">Список по программе</a></li>                
+            </ul>
+            <p data-ng-hide="!authentication.isAuth" class="navbar-text navbar-right">{{authentication.userName}}</p>
+            <button data-ng-hide="!authentication.isAuth" data-ng-click="logOut()" type="button" class="btn btn-default navbar-btn navbar-right">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<section id="body" class="container-fluid" style="min-height: 858px;">
+    <div class="row">        
+        <div class="col-md-10">
+            <div class="panel-body">
+                <form name="searchForm" role="form" class="form-horizontal" novalidate>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputLastName.$touched) && claimForm.inputLastName.$invalid }">
+                        <label for="inputLastName" class="col-sm-5 control-label">Фамилия</label>
+                        <div class="col-sm-7">
+                            <input name="inputLastName" type="text" class="form-control" placeholder="Фамилия" data-ng-model="vm.personData.lastName" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputLastName.$touched)  && claimForm.inputLastName.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputFirstName.$touched) && claimForm.inputFirstName.$invalid }">
+                        <label for="inputFirstName" class="col-sm-5 control-label">Имя</label>
+                        <div class="col-sm-7">
+                            <input name="inputFirstName" type="text" class="form-control" placeholder="Имя" data-ng-model="vm.personData.firstName" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputFirstName.$touched) && claimForm.inputFirstName.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputMiddleName.$touched) && claimForm.inputMiddleName.$invalid }">
+                        <label for="inputMiddleName" class="col-sm-5 control-label">Отчество</label>
+                        <div class="col-sm-7">
+                            <input name="inputMiddleName" type="text" class="form-control" placeholder="Отчество" data-ng-model="vm.personData.middleName" required autofocus>
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputMiddleName.$touched) && claimForm.inputMiddleName.$invalid"></span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback" ng-class="{ 'has-error': (claimForm.$submitted || claimForm.inputDateOfBirth.$touched) && claimForm.inputDateOfBirth.$invalid }">
+                        <label for="inputDateOfBirth" class="col-sm-5 control-label">Дата рождения</label>
+                        <div class="col-sm-7">
+                            <input name="inputDateOfBirth" type="text" class="form-control" placeholder="Дата рождения"
+                                   ng-click="vm.open($event)"
+                                   uib-datepicker-popup="{{vm.format}}"
+                                   data-ng-model="vm.personData.dateOfBirth"
+                                   is-open="vm.opened"
+                                   datepicker-options="vm.dateOptions"
+                                   date-disabled="disabled(date, mode)"
+                                   ng-required="true" show-button-bar="false" datepicker-local-date required autofocus />
+                            <span class="glyphicon glyphicon-ban-circle form-control-feedback" aria-hidden="true" ng-show="(claimForm.$submitted || claimForm.inputDateOfBirth.$touched) && claimForm.inputDateOfBirth.$invalid"></span>
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <div class="col-sm-3 col-sm-offset-5">
+                            <input class="btn btn-primary" type="submit" data-ng-click="vm.search()" style="margin-bottom: 10px;" value="Поиск" />
+                            <input class="btn btn-primary" type="submit" data-ng-click="vm.moveNext()" style="margin-bottom: 10px;" value="Создать" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <table ng-show="vm.result" class="table">
+                <tr ng-repeat="person in vm.result">
+                    <td>{{ person.firstName }}</td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="vm.use(person)">Использовать</button>
+                    </td>
+                </tr>
+            </table>
+
+            <p ng-if="vm.notFound" class="bg-warning" style="padding: 15px">
+                Ничего не найдено
+            </p>
+        </div>        
+    </div>
+</section>
+

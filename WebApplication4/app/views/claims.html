@@ -1,0 +1,54 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="NavbarController">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#/home">oergjw</a>-->
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#stepsearchbysnils">Добавить заявление</a></li>
+                <li><a href="#persons">Заявители</a></li>
+                <li><a href="#claims">Регистрация заявлений</a></li>
+                <li><a href="#inwork">В работе</a></li>
+                <li><a href="#rejected">Отказы</a></li>
+                <li><a href="#">Список по программе</a></li>
+            </ul>
+            <p data-ng-hide="!authentication.isAuth" class="navbar-text navbar-right">{{authentication.userName}}</p>
+            <button data-ng-hide="!authentication.isAuth" data-ng-click="logOut()" type="button" class="btn btn-default navbar-btn navbar-right">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<section id="body" class="container-fluid" style="min-height: 858px;">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Дата регистрации</th>
+                        <!--<th>Фамилия</th>
+                        <th>Имя</th>
+                        <th>Отчество</th>
+                        <th>Дата рождения</th>
+                        <th></th>-->
+                    </tr>
+                </thead>
+                <tr ng-repeat="claim in vm.claims" ng-click="vm.details(claim.id)">
+                    <td>{{ claim.dateTime }}</td>
+                    <!--<td>{{ person.lastName }}</td>
+                    <td>{{ person.firstName }}</td>
+                    <td>{{ person.middleName }}</td>
+                    <td>{{ person.dateOfBirth | date: 'dd MMMM yyyy' }}</td>
+                    <td>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="vm.use()">Использовать</button>
+                    </td>-->
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>

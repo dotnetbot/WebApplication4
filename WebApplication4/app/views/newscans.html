@@ -1,0 +1,102 @@
+﻿<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="NavbarController as vm">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="#/home">oergjw</a>-->
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#stepsearchbysnils">Добавить заявление</a></li>
+                <li><a href="#persons">Заявители</a></li>
+                <li><a href="#claims">Регистрация заявлений</a></li>
+                <li><a href="#inwork">В работе</a></li>
+                <li><a href="#rejected">Отказы</a></li>
+                <li><a href="#">Список по программе</a></li>                
+            </ul>
+            <p data-ng-hide="!authentication.isAuth" class="navbar-text navbar-right">{{authentication.userName}}</p>
+            <button data-ng-hide="!authentication.isAuth" data-ng-click="logOut()" type="button" class="btn btn-default navbar-btn navbar-right">Выйти</button>
+        </div>
+    </div>
+</div>
+
+<section id="body" class="container-fluid" style="min-height: 858px;">
+    <div class="row">
+        <div style="display: table; table-layout: fixed; padding-left: 0; padding-right: 0" class="col-md-12">
+            <div style="display: table-cell; width: 240px; padding-left: 5px; padding-top: 5px; padding-right: 5px; vertical-align: top; background-color: #F1F1F1;">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div>
+                            <span class="btn btn-success fileinput-button" style="margin-bottom: 5px; position: relative; overflow: hidden;">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Выбрать файлы</span>
+                                <input type="file" nv-file-select="" uploader="vm.uploader" multiple style="position: absolute; top: 0; right: 0; margin: 0; opacity: 0; -ms-filter: 'alpha(opacity=0)'; font-size: 200px; direction: ltr; cursor: pointer;">
+                            </span>
+                            <!--<input type="file" nv-file-select="" uploader="uploader" />-->
+                            <p ng-show="vm.uploader.queue.length">Выбрано файлов: {{ vm.uploader.queue.length }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: table; table-layout: fixed; padding-left: 0; padding-right: 0" class="col-md-12">
+                <div style="display: table-cell; width: 330px; border-right: 1px solid #e6e6e6; border-left: 1px solid #e6e6e6; vertical-align: top">
+                    <div id="listContainer" style="height: 900px; overflow-y: scroll">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Название</th>
+                                    <th ng-show="vm.uploader.isHTML5">Размер</th>
+                                    <th ng-show="vm.uploader.isHTML5">Процесс загрузки</th>
+                                    <th>Статус</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.uploader.queue">
+                                    <td><strong>{{ item.file.name }}</strong></td>
+                                    <td ng-show="vm.uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                    <td ng-show="vm.uploader.isHTML5">
+                                        <div class="progress" style="margin-bottom: 0;">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span>Удалить
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <div>
+                                Процесс всей загрузки:
+                    <div class="progress" style="">
+                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': vm.uploader.progress + '%' }"></div>
+                    </div>
+                            </div>
+                            <button type="button" class="btn btn-success btn-s" ng-click="vm.uploader.uploadAll()" ng-disabled="!vm.uploader.getNotUploadedItems().length">
+                                <span class="glyphicon glyphicon-upload"></span>Загрузить все
+                            </button>
+                            <button type="button" class="btn btn-warning btn-s" ng-click="vm.uploader.cancelAll()" ng-disabled="!vm.uploader.isUploading">
+                                <span class="glyphicon glyphicon-ban-circle"></span>Отменить все
+                            </button>
+                            <button type="button" class="btn btn-danger btn-s" ng-click="vm.uploader.clearQueue()" ng-disabled="!vm.uploader.queue.length">
+                                <span class="glyphicon glyphicon-trash"></span>Удалить все
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

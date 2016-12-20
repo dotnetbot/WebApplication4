@@ -1,0 +1,41 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    
+}
+
+.wrap {
+    width: 100%;
+    background-color:darkgray;
+}
+
+.banner {
+    border: 1px solid yellow;
+    width: 100%;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+    float: left;
+    width: 25%;
+    border: 1px solid red;
+}
+
+.right_sidebar{
+    width: 25%;
+    float: right;
+    border: 1px solid red;
+}
+
+.detail-content {
+    border: 1px solid blue;
+    margin-left: 27%;
+    margin-right: 27%;
+}
